@@ -2,9 +2,7 @@ package com.example.accessingdatamysql.entity.concrate.sensor;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
+@Data
+@AllArgsConstructor
 @Entity
 @NoArgsConstructor
-@Setter
-@JsonIgnoreProperties
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","hcsr04s","dht11s", "mq135s"})
+
 public class Device {
     @Id
     private Long id;
@@ -27,25 +27,13 @@ public class Device {
     @Column(length = 48)
     private String mac_adres;
 
+
     @OneToMany(mappedBy="device")
-    private Set<Dht11> items;
+    private Set<Dht11> dht11s;
 
     @OneToMany(mappedBy="device")
     private Set<Hcsr04> hcsr04s;
 
-    String getName(){
-        return this.name;
-    }
-    String getMacAdres(){
-        return this.mac_adres;
-    }
-    Long getId(){
-        return this.id;
-    }
-
-    public Device(Long id, String name, String mac_adres) {
-        this.id = id;
-        this.name = name;
-        this.mac_adres = mac_adres;
-    }
+    @OneToMany(mappedBy="device")
+    private Set<Mq135> mq135s;
 }
