@@ -12,10 +12,10 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name="Hcsr04AwakeLog")
+@Table(name="hcsr04_awake_log")
 public class Hcsr04 {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

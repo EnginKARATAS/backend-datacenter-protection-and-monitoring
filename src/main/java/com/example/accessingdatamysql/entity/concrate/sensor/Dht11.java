@@ -15,8 +15,8 @@ import java.util.Date;
 @Table(name = "dht11")
 public class Dht11 {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-        private Long id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
 
     @NotNull
     @Column(length=5)
