@@ -1,12 +1,13 @@
 package com.example.accessingdatamysql.entity.concrate.sensor;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,7 +28,9 @@ public class Dht11 {
     private String humidity;
 
     @NotNull
-    private Date date;
+    @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name="device_id", nullable=false)
