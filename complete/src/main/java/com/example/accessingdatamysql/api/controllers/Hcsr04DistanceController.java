@@ -3,11 +3,14 @@ package com.example.accessingdatamysql.api.controllers;
 import com.example.accessingdatamysql.dataAccess.abstracts.HcsrDao;
 import com.example.accessingdatamysql.entity.concrate.sensor.Hcsr04;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Controller	// This means that this class is a Controller
 @RequestMapping(path="/api/hcsr") // This means URL's start with /demo (after Application path)
@@ -18,7 +21,7 @@ public class Hcsr04DistanceController {
     private HcsrDao _hcrsDao;
 
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser (@RequestParam Date date) {
+    public @ResponseBody String addNewUser (@RequestParam LocalDateTime date) {
 
         Hcsr04 hcsr04 = new Hcsr04();
         hcsr04.setTriggeredDate(date);
@@ -30,5 +33,11 @@ public class Hcsr04DistanceController {
     public @ResponseBody Iterable<Hcsr04> getAllDhtData() {
         // This returns a JSON or XML with the users
         return _hcrsDao.findAll();
+    }
+
+    @GetMapping(path="/getbyday")
+    public @ResponseBody
+    List<Hcsr04> getbyday(@RequestParam(name = "d1") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime d1, @RequestParam(name = "d2") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime d2){
+        return _hcrsDao.findAllByTriggeredDateLessThanEqualAndTriggeredDateGreaterThanEqual(d1, d2);
     }
 }

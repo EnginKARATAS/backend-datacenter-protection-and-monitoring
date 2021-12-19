@@ -1,13 +1,17 @@
 package com.example.accessingdatamysql.api.controllers;
 
 import com.example.accessingdatamysql.dataAccess.abstracts.MqDao;
+import com.example.accessingdatamysql.entity.concrate.sensor.Dht11;
 import com.example.accessingdatamysql.entity.concrate.sensor.Mq135;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Controller	// This means that this class is a Controller
 @RequestMapping(path="/api/mq") // This means URL's start with /demo (after Application path)
@@ -30,5 +34,11 @@ public class Mq135AirQualityController {
     public @ResponseBody Iterable<Mq135> getAllDhtData() {
         // This returns a JSON or XML with the users
         return _mqDao.findAll();
+    }
+
+    @GetMapping(path="/getbyday")
+    public @ResponseBody
+    List<Mq135> getbyday(@RequestParam(name = "d1") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime d1, @RequestParam(name = "d2") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime d2){
+        return _mqDao.findAllByDateLessThanEqualAndDateGreaterThanEqual(d1, d2);
     }
 }
